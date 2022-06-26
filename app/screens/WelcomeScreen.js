@@ -1,9 +1,9 @@
 import React from 'react';
 import Screen from "../components/Screen";
-import AppText from "../components/AppText";
 import colors from "../config/colors";
-import { StyleSheet, View } from "react-native";
+import {Image, StyleSheet, View} from "react-native";
 import AppButton from "../components/AppButton";
+import AppText from "../components/AppText";
 
 
 function WelcomeScreen(props) {
@@ -18,11 +18,15 @@ function WelcomeScreen(props) {
 
     return (
         <>
-            <Screen >
-               <View style={styles.bottomContainer}>
-                   <AppButton title='login' onPress={handleLogin}  />
-                   <AppButton title='register' onPress={handleRegister}  />
-               </View>
+            <Screen>
+                <View style={styles.imgContainer}>
+                    <Image source={require('../assets/images/daladala.png')} style={styles.logo} />
+                    <AppText style={styles.tagline}>City best route adviser</AppText>
+                </View>
+                <View style={styles.bottomContainer}>
+                    <AppButton title='login' onPress={handleLogin}/>
+                    <AppButton title='register' color='secondary' onPress={handleRegister}/>
+                </View>
             </Screen>
         </>
     );
@@ -30,14 +34,32 @@ function WelcomeScreen(props) {
 
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: colors.light,
-  },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: colors.light,
+    },
     bottomContainer: {
         flex: 1,
+        justifyContent: 'flex-end',
         marginHorizontal: 10,
+    },
+    imgContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    tagline: {
+        color: colors.secondary,
+        fontSize: 25,
+        textAlign: 'center',
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        justifyContent: 'flex-start',
+        resizeMode: 'contain',
+        alignSelf: 'center',
+        marginTop: 50,
     }
 })
 

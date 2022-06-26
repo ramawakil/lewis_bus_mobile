@@ -1,6 +1,9 @@
 export default {
-    primary: '#fc5c65',
-    secondary: '#4ecdc4',
+    primary: '#44bba4',
+    secondary: '#e7bb41',
+    accent: '#393e41',
+    timberWolf: '#d3d0cb',
+    platinum: '#e7e5df',
     black: '#000',
     white: '#fff',
     awesome: '#000000c0',
