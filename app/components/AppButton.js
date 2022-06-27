@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         marginVertical: 10,
+        shadowColor: 'accent',
+        shadowOpacity: 0.26,
+        shadowOffset: {width: 10, height: 12},
+        shadowRadius: 8,
+        elevation: 15,
+
     },
     text: {
         color: colors.white,

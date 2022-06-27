@@ -9,11 +9,11 @@ import AppText from "../components/AppText";
 function WelcomeScreen(props) {
 
     const handleLogin = () => {
-
+        console.log('login');
     }
 
     const handleRegister = () => {
-
+        console.log('register');
     }
 
     return (
@@ -21,7 +21,7 @@ function WelcomeScreen(props) {
             <Screen>
                 <View style={styles.imgContainer}>
                     <Image source={require('../assets/images/daladala.png')} style={styles.logo} />
-                    <AppText style={styles.tagline}>City best route adviser</AppText>
+                    <AppText style={styles.tagline}>Dar Routes Guider</AppText>
                 </View>
                 <View style={styles.bottomContainer}>
                     <AppButton title='login' onPress={handleLogin}/>
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         marginHorizontal: 10,
+        marginBottom: 10,
     },
     imgContainer: {
         justifyContent: 'center',
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         alignSelf: 'center',
         marginTop: 50,
+        shadowColor: 'black',
+        shadowOpacity: 0.36,
+
     }
 })
 

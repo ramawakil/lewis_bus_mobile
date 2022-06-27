@@ -1,21 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import colors from "../config/colors";
+import AppText from "./AppText";
 
-function AppTextButton({ title, onPress, color = colors.white, style = {}, width = '100%' }) {
+function AppTextButton({title, onPress, color = colors.white, style = {}, width = '100%'}) {
     return (
-        <TouchableOpacity style={[styles.button, {color: colors[color], width: width}, {...style}]} onPress={onPress}>
-            <Text style={styles.text}>{title}</Text>
+        <TouchableOpacity style={[styles.button, {color: colors[color]}, {...style}]} onPress={onPress}>
+            <AppText style={styles.text}>{title}</AppText>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        marginVertical: 15
+        marginVertical: 15,
     },
     text: {
         color: colors.secondary,
