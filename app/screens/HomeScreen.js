@@ -13,11 +13,12 @@ function HomeScreen(props) {
             setRegion({
                 latitude: location.latitude,
                 longitude: location.longitude,
-                latitudeDelta: 0.0622,
+                latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             });
         }
-    }, [location])
+        console.log(location);
+    }, [])
 
     const fetchLocation = async () => {
 
