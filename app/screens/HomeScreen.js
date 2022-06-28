@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import Screen from "../components/Screen";
 import MapView from "react-native-maps";
 import useLocation from "../hooks/useLocation";
-import { StyleSheet } from "react-native";
+import {StyleSheet, View} from "react-native";
+import AppTextInput from "../components/AppTextInput";
+import colors from "../config/colors";
+import SelectAddressScreen from "./SelectAddressScreen";
 
 function HomeScreen(props) {
     const location = useLocation();
@@ -17,7 +20,6 @@ function HomeScreen(props) {
                 longitudeDelta: 0.0421,
             });
         }
-        console.log(location);
     }, [])
 
     const fetchLocation = async () => {
@@ -26,7 +28,11 @@ function HomeScreen(props) {
 
     return (
         <>
+            <SelectAddressScreen visible={true} />
             <Screen>
+                <View style={styles.whereTo}>
+                    <AppTextInput style={styles.whereToInput} icon='map-search' placeholder='Where To ?' />
+                </View>
             <MapView
                 style={styles.map}
                 showsUserLocation={true}
@@ -46,7 +52,27 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         height: "100%",
+    },
+    whereTo: {
+        width: '100%',
+        marginTop: 60,
+        borderRadius: 25,
+        backgroundColor: colors.light,
+        zIndex: 15,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: colors.accent,
+        shadowOpacity: 0.66,
+        shadowOffset: {width: 10, height: 12},
+        shadowRadius: 8,
+        elevation: 25,
+
+    },
+    whereToInput: {
+        width: '90%',
     }
+
 });
 
 
