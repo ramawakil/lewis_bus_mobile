@@ -16,10 +16,10 @@ function AppText({children, style}) {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+
     },
     text: {
-        width: '100%',
+
     }
 });
 

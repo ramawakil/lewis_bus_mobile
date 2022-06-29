@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: Platform.OS === 'android' ? 25 : 0
+        paddingTop: Platform.OS === 'android' ? 35 : 0
     },
     view: {
         flex: 1,
