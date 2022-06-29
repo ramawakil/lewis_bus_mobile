@@ -1,20 +1,37 @@
 import React from 'react';
-import {Modal, View, StyleSheet} from "react-native";
+import {Modal, View, StyleSheet, TouchableOpacity, VirtualizedList} from "react-native";
 import colors from "../config/colors";
 import Screen from "../components/Screen";
 import AppTextInput from "../components/AppTextInput";
+import Icon from "../components/Icon";
 
-function SelectAddressScreen({ visible }) {
+function SelectAddressScreen({ visible, close, initialSearchWord, setSearchWord, data }) {
     return (
         <>
             <Modal visible={visible} >
-                <View style={styles.container}><View style={styles.whereTo}>
-                    <AppTextInput style={styles.whereToInput} icon='map-search' placeholder='Where To ?' />
+                <Screen>
+                <View style={styles.upperPart}>
+                    <TouchableOpacity onPress={close}>
+                        <Icon name="close" size={40} color={colors.primary} />
+                    </TouchableOpacity>
                 </View>
+                <View style={styles.container}>
                     <View style={styles.whereTo}>
-                        <AppTextInput style={styles.whereToInput} icon='map-search' placeholder='Where To ?' />
-                    </View>
+                    <AppTextInput value={initialSearchWord} onChangeText={(value) => setSearchWord(value)} style={styles.whereToInput} icon='map-search' placeholder='From To ?' />
                 </View>
+
+                </View>
+                    {/*<VirtualizedList */}
+                    {/*    data={data}*/}
+                    {/*    */}
+                    {/*/>*/}
+                    <View>
+                        <View>
+
+                        </View>
+
+                    </View>
+                </Screen>
             </Modal>
         </>
     );
@@ -22,16 +39,18 @@ function SelectAddressScreen({ visible }) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+    },
+    upperPart: {
+      padding: 20,
     },
     whereTo: {
-        width: '100%',
         marginTop: 60,
         borderRadius: 25,
         backgroundColor: colors.light,
         zIndex: 15,
         position: 'relative',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center',
         shadowColor: colors.accent,
         shadowOpacity: 0.66,

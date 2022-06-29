@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Screen from "../components/Screen";
 import MapView from "react-native-maps";
 import useLocation from "../hooks/useLocation";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import AppTextInput from "../components/AppTextInput";
 import colors from "../config/colors";
 import SelectAddressScreen from "./SelectAddressScreen";
@@ -10,6 +10,22 @@ import SelectAddressScreen from "./SelectAddressScreen";
 function HomeScreen(props) {
     const location = useLocation();
     const [region, setRegion] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [whereToWord, setWhereToWord] = useState('');
+
+    const handleMapRegionChange = (region) => {
+
+    }
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    }
+
+
 
     useEffect(() => {
         if (location) {
@@ -26,12 +42,19 @@ function HomeScreen(props) {
 
     }
 
+    const handleWhereToWord = (word) => {
+        setWhereToWord(word);
+        setOpenModal(true);
+    }
+
     return (
         <>
-            <SelectAddressScreen visible={true} />
+            <SelectAddressScreen initialSearchWord={whereToWord} setSearchWord={setWhereToWord} visible={openModal} close={handleCloseModal} />
             <Screen>
                 <View style={styles.whereTo}>
-                    <AppTextInput style={styles.whereToInput} icon='map-search' placeholder='Where To ?' />
+                    <TouchableOpacity onPress={handleOpenModal}>
+                        <AppTextInput onChangeText={(value) => handleWhereToWord(value)} style={styles.whereToInput} icon='map-search' placeholder='Where To ?' />
+                    </TouchableOpacity>
                 </View>
             <MapView
                 style={styles.map}
