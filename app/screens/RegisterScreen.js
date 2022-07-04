@@ -8,6 +8,8 @@ import AppTextButton from "../components/AppTextButton";
 import AppSubmitButton from "../components/forms/AppSubmitButton";
 import * as Yup from "yup";
 import colors from "../config/colors";
+import routeConstants from "../navigation/routes";
+import AppButton from "../components/AppButton";
 
 const ValidationSchema = Yup.object().shape({
     name: Yup.string().required().min(3).label('Name'),
@@ -15,10 +17,15 @@ const ValidationSchema = Yup.object().shape({
     password: Yup.string().required().min(3).label('Password'),
 })
 
-function RegisterScreen(props) {
+function RegisterScreen({ navigation }) {
 
     const handleRegister = () => {
         console.log('register');
+        alert("Can't create account right now!")
+    }
+
+    const handleLogin = () => {
+        navigation.navigate(routeConstants.LOGIN);
     }
 
     return (
@@ -60,10 +67,11 @@ function RegisterScreen(props) {
                         />
 
                         <View style={styles.btnContainer}>
-                            <AppTextButton  title='Already Registered ? Login now' />
+                            <AppTextButton onPress={handleLogin}  title='Already Registered ? Login now' />
                         </View>
 
-                        <AppSubmitButton title='Create account' />
+                        {/*<AppSubmitButton title='Create account' />*/}
+                        <AppButton title='Register' onPress={handleRegister} />
                     </AppForm>
                 </View>
 

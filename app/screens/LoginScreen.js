@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Screen from "../components/Screen";
 import {View, StyleSheet, Image, TouchableOpacity} from "react-native";
 import AppForm from "../components/forms/AppForm";
@@ -8,24 +8,33 @@ import AppSubmitButton from "../components/forms/AppSubmitButton";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import AppTextButton from "../components/AppTextButton";
+import AppButton from "../components/AppButton";
+import AuthContext from "../auth/context";
+import routeConstants from "../navigation/routes";
 
 const ValidationSchema = Yup.object().shape({
     username: Yup.string().required().min(4).label('Username'),
     password: Yup.string().required().min(3).label('Password'),
 })
 
-function LoginScreen(props) {
+function LoginScreen({navigation}) {
+    const { setUser } = useContext(AuthContext);
 
     const handleLogin = () => {
         console.log('login');
     }
 
     const handleForgetPassword = () => {
+        alert('Not implemented yet!');
         console.log('forget password');
     }
 
     const handleRegister = () => {
-        console.log('register');
+        navigation.navigate(routeConstants.REGISTER);
+    }
+
+    const handleLoginMock = () => {
+        setUser({name: 123})
     }
 
     return (
@@ -64,7 +73,8 @@ function LoginScreen(props) {
                             <AppTextButton onPress={handleRegister} title='Create Account' />
                         </View>
 
-                        <AppSubmitButton title='Login' />
+                        {/*<AppSubmitButton title='Login' />*/}
+                        <AppButton title='Login' onPress={handleLoginMock} />
                     </AppForm>
                 </View>
 

@@ -1,26 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import LoginScreen from "./app/screens/LoginScreen";
-import RegisterScreen from "./app/screens/RegisterScreen";
-import HomeScreen from "./app/screens/HomeScreen";
+import {StatusBar} from 'expo-status-bar';
+import {Platform, StyleSheet} from 'react-native';
+import OfflineNotice from "./app/components/OfflineNotice";
+import {NavigationContainer} from "@react-navigation/native";
+import {navigationRef} from "./app/navigation/rootNavigation";
+import navigationTheme from "./app/navigation/navigationTheme";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AppNavigator from "./app/navigation/AppNavigator";
+import {useState} from "react";
+import AuthContext from "./app/auth/context";
 
 export default function App() {
-  return (
-      <>
-        {/*<WelcomeScreen />*/}
-        {/*  <LoginScreen />*/}
-        {/*  <RegisterScreen />*/}
-          <HomeScreen />
-      </>
-  );
+    const [user, setUser] = useState(true);
+    const [isReady, setIsReady] = useState(false);
+
+
+    // const restoreUser = async () => {
+    //     const user = await authStorage.getUser();
+    //     if (user) setUser(user);
+    // }
+
+    return (
+        <>
+            <StatusBar barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}/>
+            <AuthContext.Provider value={{user, setUser}}>
+                <OfflineNotice/>
+                <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+                    {user ? (<AppNavigator/>) : (<AuthNavigator/>)}
+                    {/*<AppNavigator />*/}
+                </NavigationContainer>
+            </AuthContext.Provider>
+        </>
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });

@@ -130,7 +130,7 @@ function HomeScreen(props) {
                 { (whereToPlaced && fromToPlaced) && (
                     <View style={styles.actionBtns}>
                         <AppIconButton  name='check' backgroundColor={colors.primary} size={60} onPress={() => console.log('done')} />
-                        <AppIconButton name='close' backgroundColor={colors.danger} size={60} onPress={() => console.log('done')} />
+                        <AppIconButton name='close' backgroundColor={colors.danger} size={60} onPress={cancelAll} />
                     </View>
                 )}
 

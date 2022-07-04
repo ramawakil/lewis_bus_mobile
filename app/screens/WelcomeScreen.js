@@ -4,16 +4,19 @@ import colors from "../config/colors";
 import {Image, StyleSheet, View} from "react-native";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
+import routeConstants from "../navigation/routes";
 
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
 
     const handleLogin = () => {
         console.log('login');
+        navigation.navigate(routeConstants.LOGIN);
     }
 
     const handleRegister = () => {
         console.log('register');
+        navigation.navigate(routeConstants.REGISTER);
     }
 
     return (
