@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Screen from "../components/Screen";
 import {View, StyleSheet, Image, TouchableOpacity} from "react-native";
 import AppForm from "../components/forms/AppForm";
@@ -11,6 +11,12 @@ import AppTextButton from "../components/AppTextButton";
 import AppButton from "../components/AppButton";
 import AuthContext from "../auth/context";
 import routeConstants from "../navigation/routes";
+import authApi from '../api/auth';
+import axios from "axios";
+import useAuth from "../auth/useAuth";
+import AppActivityIndicator from "../components/AppActivityIndicator";
+
+
 
 const ValidationSchema = Yup.object().shape({
     username: Yup.string().required().min(4).label('Username'),
@@ -18,14 +24,50 @@ const ValidationSchema = Yup.object().shape({
 })
 
 function LoginScreen({navigation}) {
+    const auth = useAuth();
     const { setUser } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleLogin = () => {
-        console.log('login');
+    const handleLogin = async (values) => {
+        setIsLoading(true);
+        setError(null);
+        setErrorMessage('');
+        const result = await authApi.login({
+            username: values.username,
+            password: values.password,
+        });
+        setIsLoading(false);
+        console.log(result);
+        if (!result.ok) {
+            setError(result.data);
+            if (result.status === 401) {
+              return setErrorMessage('Invalid username or password');
+            }
+            return setErrorMessage(result.problem);
+        }
+
+        const userData = await axios.get('http://dar-best-route1.herokuapp.com/auth/users/me/', {
+            headers: {
+                Authorization: `JWT ${result.data.access}`
+            }
+        });
+
+        const userObj = {
+            userData: userData.data,
+            access: result.data.access,
+            refresh: result.data.refresh,
+        }
+
+        setTimeout(() => {
+            auth.logIn(userObj);
+        }, 1000);
+
     }
 
     const handleForgetPassword = () => {
-        alert('Not implemented yet!');
+        alert('Contact system Administrator');
         console.log('forget password');
     }
 
@@ -39,12 +81,14 @@ function LoginScreen({navigation}) {
 
     return (
         <>
+            <AppActivityIndicator visible={isLoading} />
             <Screen>
                 <View style={styles.imgContainer}>
                     <Image source={require('../assets/images/daladala.png')} style={styles.logo} />
                     <AppText style={styles.tagline}>Login to Continue..</AppText>
                 </View>
                 <View style={styles.form}>
+                    <AppText style={{ color: colors.danger, textAlign: 'center' }}>{errorMessage}</AppText>
                     <AppForm
                         initialValues={{username: '', password: ''}}
                         onSubmit={handleLogin}
@@ -73,8 +117,8 @@ function LoginScreen({navigation}) {
                             <AppTextButton onPress={handleRegister} title='Create Account' />
                         </View>
 
-                        {/*<AppSubmitButton title='Login' />*/}
-                        <AppButton title='Login' onPress={handleLoginMock} />
+                        <AppSubmitButton title='Login' />
+                        {/*<AppButton title='Login' onPress={handleLoginMock} />*/}
                     </AppForm>
                 </View>
 

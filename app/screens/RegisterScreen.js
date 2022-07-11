@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Screen from "../components/Screen";
-import {Image, View, StyleSheet} from "react-native";
+import {Image, StyleSheet, View} from "react-native";
 import AppText from "../components/AppText";
 import AppForm from "../components/forms/AppForm";
 import AppFormField from "../components/forms/AppFormField";
@@ -9,19 +9,34 @@ import AppSubmitButton from "../components/forms/AppSubmitButton";
 import * as Yup from "yup";
 import colors from "../config/colors";
 import routeConstants from "../navigation/routes";
-import AppButton from "../components/AppButton";
+import useAuth from "../auth/useAuth";
+import authApi from '../api/auth';
+import AppActivityIndicator from "../components/AppActivityIndicator";
 
-const ValidationSchema = Yup.object().shape({
-    name: Yup.string().required().min(3).label('Name'),
-    username: Yup.string().required().min(4).label('Username'),
-    password: Yup.string().required().min(3).label('Password'),
-})
 
-function RegisterScreen({ navigation }) {
 
-    const handleRegister = () => {
-        console.log('register');
-        alert("Can't create account right now!")
+
+function RegisterScreen({navigation}) {
+    const auth = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleRegister = async (values) => {
+        setIsLoading(true);
+        setError(null);
+        const result = await authApi.register({
+            username: values.username,
+            first_name: values.name,
+            password: values.password,
+        })
+        setIsLoading(false);
+        if (!result.ok) {
+            setError(result.data);
+            return setErrorMessage(result.problem);
+        }
+        return navigation.navigate(routeConstants.LOGIN);
+
     }
 
     const handleLogin = () => {
@@ -30,9 +45,10 @@ function RegisterScreen({ navigation }) {
 
     return (
         <>
+            <AppActivityIndicator visible={isLoading} />
             <Screen>
                 <View style={styles.imgContainer}>
-                    <Image source={require('../assets/images/daladala.png')} style={styles.logo} />
+                    <Image source={require('../assets/images/daladala.png')} style={styles.logo}/>
                     <AppText style={styles.tagline}>Create a new account..</AppText>
                 </View>
                 <View style={styles.form}>
@@ -67,11 +83,11 @@ function RegisterScreen({ navigation }) {
                         />
 
                         <View style={styles.btnContainer}>
-                            <AppTextButton onPress={handleLogin}  title='Already Registered ? Login now' />
+                            <AppTextButton onPress={handleLogin} title='Already Registered ? Login now'/>
                         </View>
 
-                        {/*<AppSubmitButton title='Create account' />*/}
-                        <AppButton title='Register' onPress={handleRegister} />
+                        <AppSubmitButton title='Create account'/>
+                        {/*<AppButton title='Register' onPress={handleRegister} />*/}
                     </AppForm>
                 </View>
 

@@ -7,7 +7,7 @@ import AppText from "../components/AppText";
 import ListItemSeparator from "../components/ListItemSeparator";
 import AppButton from "../components/AppButton";
 
-function SelectAddressScreen({visible, close, initialSearchWord, setSearchWord, data, onAddressSelect, whereToBool, fromBool, whereTo, from, cancelAll}) {
+function SelectAddressScreen({visible, close, initialSearchWord, setSearchWord, fromBool, fromTo, data, onAddressSelect, whereToBool, whereTo, from, cancelAll}) {
 
     const handleReturnHomeScreen = () => {
         close();
@@ -22,9 +22,6 @@ function SelectAddressScreen({visible, close, initialSearchWord, setSearchWord, 
                     </TouchableOpacity>
                 </View>
 
-                {
-                    fromBool && (<AppText>From: {from?.title}</AppText>)
-                }
 
                 {
                     whereToBool && (<AppText>To: {whereTo?.title}</AppText>)
